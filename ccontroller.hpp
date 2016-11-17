@@ -8,6 +8,7 @@
 #include <sstream>
 #include "cusermodel.hpp"
 #include "cview.hpp"
+#include "cdatasource.hpp"
 
 class CController {
 	private:
