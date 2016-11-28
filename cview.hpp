@@ -10,7 +10,8 @@ class CView {
 		}
 	public:
 		static void show_greeting() {
-			std::cout << "Hello! Type help for instructions on how to use this utility." << std::endl;
+			std::cout << "Hello! Type help for instructions on how to use this utility." 
+				  << "Type source <number> to select the data source." << std::endl;
 			_input_invitation();
 		}
 		static void show_message(const std::string& message) {
@@ -26,6 +27,7 @@ class CView {
 				  << "- show debtors - show all debtors" << std::endl
 				  << "- show users - show all users" << std::endl
 				  << "- show books - show all books" << std::endl
+				  << "- source <number> - select data source" << std::endl
 				  << "- quit - quit program" << std::endl;
 			_input_invitation();
 		}
