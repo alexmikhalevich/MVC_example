@@ -29,4 +29,11 @@ class ExUnknownCommand : public IException {
 		}
 };
 
+class ExUnknownSource : public IException {
+	public:
+		virtual std::string what() const {
+			return "Unknown source.";
+		}
+};
+
 #endif //EXCEPTION_HPP
