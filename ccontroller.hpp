@@ -14,6 +14,7 @@ class CController {
 	private:
 		std::map<std::string, CUserModel*> m_users;
 		std::map<std::string, CBookModel*> m_books;
+		IDataSource* m_source;
 		void _add_book(const std::string& name) {
 			m_books.insert(std::make_pair(name, new CBookModel(name)));
 		}
@@ -36,8 +37,19 @@ class CController {
 				CView::show_error("No such book or user.");
 			}
 		}
+		void _load_source(IDataSource* source) {
+			if(m_source) CView::show_error("You have already chosen one source");
+			else {
+				m_source = source;
+				std::vector<std::string> books;
+				m_source->load_data(books);
+				for(size_t i = 0; i < books.size(); ++i)
+					_add_book(books[i]);
+				CView::show_message("Successfuly");
+			}
+		}
 	public:
-		CController() { CView::show_greeting(); }
+		CController() : m_source(NULL) { CView::show_greeting(); }
 		int parse_command(const std::string& input) {
 			std::istringstream stream(input);
 			std::string tmp;
@@ -84,6 +96,13 @@ class CController {
 				}
 				else throw new ExUnknownCommand;
 			}
+			else if(tmp == "source") {
+				stream >> tmp;
+				if(tmp == "1") _load_source(new CDataSourceFirst);
+				else if(tmp == "2") _load_source(new CDataSourceSecond);
+				else if(tmp == "3") _load_source(new CDataSourceThird);
+				else throw new ExUnknownSource; 
+			}
 			else if(tmp == "help") {
 				CView::show_help();
 			}
@@ -99,7 +118,7 @@ class CController {
 				delete (*iter).second;
 			for(auto iter = m_books.begin(); iter != m_books.end(); ++iter) 
 				delete (*iter).second;
-			
+			delete m_source;
 		}
 };
 
